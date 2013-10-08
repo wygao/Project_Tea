@@ -1,0 +1,139 @@
+<!DOCTYPE html><!-- saved from url=(0063)http://docs.bootcss.com/bootstrap-2.3.2/docs/examples/hero.html -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Bootstrap, from Twitter</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">
+    <style type="text/css">
+      body {
+        padding-top: 42px;
+        padding-bottom: 40px;
+      }
+	.goodsImg{
+		height:230px;
+		width:180px;
+	}
+	#myModal{
+		width:500px;
+		height:400px;
+	}
+    </style>
+
+    <link rel="icon-precomposed" sizes="144x144" href="/static/bootstrap/img/glyphicons-halflings.png">
+    <link rel="icon-precomposed" sizes="114x114" href="/static/bootstrap/img/glyphicons-halflings-white.png/">
+    <script src="/static/bootstrap/js/jquery.js"></script>
+    <script src="/static/bootstrap/js/bootstrap.min.js"></script>
+
+
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="brand" href="/index/">爱尚茶</a>
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+              <li class="active"><a href="#">开始订购</a></li>
+              <li><a href="#about">查询订单</a></li>
+              <li><a href="#contact">手机客户端</a></li>
+              <li><a href="#contact">帮助中心</a></li>
+            </ul>
+            <form class="navbar-form pull-right">
+              <input class="span2" type="text" placeholder="用户名">
+              <input class="span2" type="password" placeholder="口令">
+              <button type="submit" class="btn">登陆</button>
+          	  <button type="" class="btn" data-target="#myModal" data-toggle="modal">注册</button>
+            </form>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+	<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLebel" aria-hidden="true">
+		<form method="post" action="">{% csrf_token %}
+			<table>
+				<tr><td>用户名</td></tr>
+				<tr><td><input type="text" name="username" id="username" /></td></tr>
+				<tr><td>密码</td></tr>
+				<tr><td><input type="password" name="password" id="password" /></td></tr>
+				<tr><td>联系电话</td></tr>
+				<tr><td><input type="text" name="tel" id="tel" /></td></tr>
+				<tr><td>联系地址</td></tr>
+				<tr><td><input type="text" name="addr" id="addr"></td></tr>
+				<tr><td>QQ</td></tr>
+				<tr><td><input type="text" name="QQ" id="QQ"></td></tr>
+				<tr></tr>
+				<tr><td><button class="btn btn-primary">注册</button></td></tr>
+				<tr><td><button class="btn" data-dismiss="madal" aria-hidden="true">关闭</button></td></tr>
+
+			</table>
+		</form>
+	</div>
+
+    <div class="container-fluid">
+    	<div class="row-fluid">
+    	  	<div class="span12">
+		  	  <div class="span2">	
+		  	  	<div class="well sidebar-nav">	
+		  	  		<ul class="nav nav-list">
+		  	  			<li>优惠直通车</li>
+		  	  			<li><a>本日特惠</a></li>
+		  	  			<li><a>新品推介</a></li>
+		  	  			<li><a>团购进行中</a></li>
+		  	  			{% for cate in up_category %}
+		  	  				<li>{{cate.name}}</li>
+		  	  				{% for sec_category in cate.category_set.all %}
+		  	  					<li class="sec_category" cid="{{sec_category.id}}"><a href="/disp_goods/?cid={{sec_category.id}}" target="blank" >{{sec_category.name}}</a></li>
+		  	  				{% endfor %}
+		  	  			{% endfor %}
+		  	  		</ul>
+		  	  	</div>
+		  	  </div>
+		  	  <div class="span7">	
+		  	  	{%for goods in goods_list%}
+    	  			<div lass="row-fluid">
+    	  			  <div class="span4">
+    	  			  	<div class="thumbnail">
+		  	  		      <img src="/static/{{goods.img}}" class="goodsImg" alt="img" title="{{goods.info}}" />
+    	  			  	  <h3>{{goods.name}}</h3>
+    	  			  	  <h4>￥{{goods.price}}</h4>
+    	  			  	  <p><a class="btn" href="#">订购&raquo;</a></p>
+    	  			  	</div>
+		  	  	  	  </div>
+		  	  		{% if forloop.counter|divisibleby:'3' %}
+    	  				</div><div>
+		  	  		{% else %}
+		  	  		{% endif %}
+		  	  		</div>
+		  	  	{%endfor%}
+		  	  </div><!--span7-->
+
+		  	  <div class="span3">
+		  	  	<div class="well sidebar-nav">	
+		  	  	</div>
+		  	  </div>
+		  	</div><!--/span12-->
+    	</div><!--/row-fluid-->
+
+      <hr>
+
+      <footer>
+        <p>&copy; Company 2013</p>
+      </footer>
+    </div> <!-- /container -->
+
+
+  </body>
+</html>
